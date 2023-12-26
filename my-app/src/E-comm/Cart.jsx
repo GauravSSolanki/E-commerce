@@ -2,40 +2,61 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Cart.css";
 
-import sale9 from "../imgs/sale9.png";
+import play from "../imgs/Footer/play.jpg";
+
+import { CiStar } from "react-icons/ci";
+import Product from "./Product";
+import CartProduct from "./CartProduct";
 
 function Cart() {
-  // const [Arrayofitems, setArrayofitems] = useState([]);
+  const [Products, setProducts] = useState([]);
+
+  useEffect(() => {
+    let getData = JSON.parse(localStorage.getItem("cartData")) || [];
+    setProducts(getData);
+  }, []);
+
+  // console.log(Products);
 
   return (
     <>
-      {/* <div className="container-fluid">
+      <div className="container-fluid">
         <div className="row">
-        <div class="product-cart">
-            <img src={sale9} alt="product image" />
-            <span>adidas</span>
+          <div class="product-cart">
+            <img src="" alt="product image" />
+            <span>{Product.title}</span>
             <h4>Cartoon Astronaut T-Shirts</h4>
             <div class="stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i>
+                <CiStar />
+              </i>
+              <i>
+                <CiStar />
+              </i>
+              <i>
+                <CiStar />
+              </i>
+              <i>
+                <CiStar />
+              </i>
+              <i>
+                <CiStar />
+              </i>
             </div>
             <h4 class="price">$78</h4>
-            <a href="#"><i class="fa-solid fa-cart-shopping buy-icon"></i></a>
+            <a href="#">
+              <i class="fa-solid fa-cart-shopping buy-icon"></i>
+            </a>
           </div>
         </div>
-      </div> */}
+      </div>
 
       <header class="section-header">
         <section class="header-main border-bottom">
           <div class="container">
             <div class="row align-items-center">
               <div class="col-lg-2 col-4">
-                <a href="">
-                  Company Name
-                </a>
+                <a href="">Company Name</a>
               </div>
               <div class="col-lg-6 col-sm-12">
                 <form action="#" class="search">
@@ -98,8 +119,11 @@ function Cart() {
                       <th scope="col" width="120">
                         Quantity
                       </th>
-                      <th scope="col" width="120">
+                      <th scope="col" width="80">
                         Price
+                      </th>
+                      <th scope="col" width="80">
+                        Total
                       </th>
                       <th scope="col" class="text-right" width="200">
                         {" "}
@@ -107,55 +131,13 @@ function Cart() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <figure class="itemside">
-                          <div class="aside">
-                            <img
-                              src="assets/images/items/1.jpg"
-                              class="img-sm"
-                            />
-                          </div>
-                          <figcaption class="info">
-                            <a href="#" class="title text-dark">
-                              Some name of item goes here nice
-                            </a>
-                            <p class="text-muted small">
-                              Size: XL, Color: blue, <br /> Brand: Gucci
-                            </p>
-                          </figcaption>
-                        </figure>
-                      </td>
-                      <td>
-                        <select class="form-control">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                        </select>
-                      </td>
-                      <td>
-                        <div class="price-wrap">
-                          <var class="price">$1156.00</var>
-                          <small class="text-muted"> $315.20 each </small>
-                        </div>
-                      </td>
-                      <td class="text-right">
-                        <a
-                          data-original-title="Save to Wishlist"
-                          title=""
-                          href=""
-                          class="btn btn-light mr-2"
-                          data-toggle="tooltip"
-                        >
-                          d <i class="fa fa-heart"></i>
-                        </a>
-                        <a href="" class="btn btn-light">
-                          {" "}
-                          Remove
-                        </a>
-                      </td>
-                    </tr>
+                    {Products.map((Product,idx) => {
+                      return (
+                        <>
+                          <CartProduct Product={Product} idx={idx}/>
+                        </>
+                      );
+                    })}
                   </tbody>
                 </table>
 
@@ -273,7 +255,7 @@ export default Cart;
 // category
 // :
 // "smartphones"
-//
+
 // :
 // "An apple mobile which is nothing like apple"
 // discountPercentage

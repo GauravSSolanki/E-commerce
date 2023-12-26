@@ -3,14 +3,17 @@ import "./Home.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import sale4 from "../imgs/sale4.jpg";
-import sale7 from "../imgs/sale7.jpeg";
-import sale8 from "../imgs/sale8.jpeg";
+import Product from "./Product";
+import Login from "../SignUp/Login";
+import Hero from "./Hero";
+
+// import sale4 from "../imgs/sale4.jpg";
+// import sale7 from "../imgs/sale7.jpeg";
+// import sale8 from "../imgs/sale8.jpeg";
 
 import logo from "../imgs/Footer/logo.png";
 import pay from "../imgs/Footer/pay.png";
 import play from "../imgs/Footer/play.jpg";
-import Product from "./Product";
 
 function Home() {
   const [Products, setProducts] = useState([]);
@@ -49,16 +52,7 @@ function Home() {
 
   return (
     <>
-      <section className="hero">
-        <a>
-          <img src={logo} alt="Logo" />
-        </a>
-        <h4>Trade-in-offer</h4>
-        <h2>Super value deals</h2>
-        <h1>On all products</h1>
-        <p>save more coupons & up to 70% off!</p>
-        <button>Shop now</button>
-      </section>
+      <Hero />
 
       <div className="off-banner">
         <h3>Vouchers</h3>
@@ -66,13 +60,13 @@ function Home() {
         <button className="normal">Explore More</button>
       </div>
 
-      <section className="Home-Section">
+      <section className="Home-Section" id="Shop">
         <hr />
         <div className="Main-card">
           {Products ? (
             <ul className="product-lists flex-wrap" style={{ padding: "0px" }}>
-              {Products.map((item, idx) => (
-                <Product product={item} />
+              {Products.map((item) => (
+                <Product product={item} id={item.id}/>
               ))}
             </ul>
           ) : (
@@ -183,7 +177,7 @@ function Home() {
           <div class="myaccount ">
             <h3>My account</h3>
             <br />
-            <a href="#">Sign In</a>
+            <a href=""><Link to="/Signin">SignIn</Link></a>
             <a href=""><Link to="/Cart">View Cart</Link></a>
             <a href="#">My Wishlist</a>
             <a href="#">Track My Order</a>
