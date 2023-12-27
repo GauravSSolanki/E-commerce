@@ -34,7 +34,8 @@ function Home() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+
+  }, [Products]);
 
   if (Product.length === 0) {
     return (
@@ -177,7 +178,7 @@ function Home() {
           <div class="myaccount ">
             <h3>My account</h3>
             <br />
-            <a href=""><Link to="/Signin">SignIn</Link></a>
+            <a href=""><Link to="/">SignIn</Link></a>
             <a href=""><Link to="/Cart">View Cart</Link></a>
             <a href="#">My Wishlist</a>
             <a href="#">Track My Order</a>

@@ -3,11 +3,14 @@ import "./product.css";
 
 function Product({ product,id}) {
   const [ITEm, setITEm] = useState(false);
+  // const [quantity, setquantity] = useState(1);
 
   const addcart = (item) => {
-    let getData = JSON.parse(localStorage.getItem("cartData")) || [];
+    let localData = {...item, quantity:1}; 
+    let getData = JSON.parse(localStorage.getItem("cartData")) || [] ;
     if (!getData.some(item => item.id === id)) {
-      let localArr = getData.concat(item);
+      let localArr = getData.concat(localData);
+      // let localArr=[];
       localStorage.setItem("cartData", JSON.stringify(localArr));
       setITEm(false);
       return;

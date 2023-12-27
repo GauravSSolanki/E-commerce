@@ -1,62 +1,51 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./Cart.css";
+import { Link } from "react-router-dom";
 
 import play from "../imgs/Footer/play.jpg";
 
 import { CiStar } from "react-icons/ci";
+
+import logo from "../imgs/Footer/logo.png";
 import Product from "./Product";
 import CartProduct from "./CartProduct";
+import Coupons from "./Coupons";
+import Home from "./Home";
 
 function Cart() {
   const [Products, setProducts] = useState([]);
+  const [Discount, setDiscount] = useState(0);
+
+  const calculateCartTotal = (Products) => {
+    return Products.reduce((total, product) => {
+      // Assuming each product has a 'quantity' and 'price' property
+      const productTotal = product.quantity * product.price;
+      return Math.round(total + productTotal);
+    }, 0);
+  };
+  const totalAmount = calculateCartTotal(Products);
+  // console.log("Total Amount:", totalAmount);
 
   useEffect(() => {
     let getData = JSON.parse(localStorage.getItem("cartData")) || [];
     setProducts(getData);
-  }, []);
+  }, [Products]);
 
   // console.log(Products);
 
   return (
     <>
-      <div className="container-fluid">
-        <div className="row">
-          <div class="product-cart">
-            <img src="" alt="product image" />
-            <span>{Product.title}</span>
-            <h4>Cartoon Astronaut T-Shirts</h4>
-            <div class="stars">
-              <i>
-                <CiStar />
-              </i>
-              <i>
-                <CiStar />
-              </i>
-              <i>
-                <CiStar />
-              </i>
-              <i>
-                <CiStar />
-              </i>
-              <i>
-                <CiStar />
-              </i>
-            </div>
-            <h4 class="price">$78</h4>
-            <a href="#">
-              <i class="fa-solid fa-cart-shopping buy-icon"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-
       <header class="section-header">
         <section class="header-main border-bottom">
           <div class="container">
             <div class="row align-items-center">
               <div class="col-lg-2 col-4">
-                <a href="">Company Name</a>
+                <h4 className="">
+                  <p class="text-center mb-3">
+                    <img src={logo} alt="logo" />
+                  </p>
+                </h4>
               </div>
               <div class="col-lg-6 col-sm-12">
                 <form action="#" class="search">
@@ -131,10 +120,14 @@ function Cart() {
                     </tr>
                   </thead>
                   <tbody>
-                    {Products.map((Product,idx) => {
+                    {Products.map((Product, idx) => {
                       return (
                         <>
-                          <CartProduct Product={Product} idx={idx}/>
+                          <CartProduct
+                            CartProduct={Product}
+                            idx={idx}
+                            Discount={Discount}
+                          />
                         </>
                       );
                     })}
@@ -143,64 +136,55 @@ function Cart() {
 
                 <div class="card-body border-top p-2">
                   <a href="#" class="btn btn-primary float-md-right">
-                    {" "}
-                    Make Purchase <i class="fa fa-chevron-right"></i>{" "}
+                    Make Purchase <i class=""></i>{" "}
                   </a>
                   <a href="#" class="btn btn-light float-md-left">
                     {" "}
-                    <i class="fa fa-chevron-left"></i> Continue shopping{" "}
+                    <i class=""></i> Continue shopping{" "}
                   </a>
                 </div>
               </div>
 
               <div class="alert alert-primary mt-3">
                 <p class="icontext">
-                  <i class="icon text-success fa fa-truck"></i> Free Delivery
-                  within 1-2 weeks
+                  <i class="icon text-success"></i> Free Delivery within 1-2
+                  weeks
                 </p>
               </div>
             </main>
 
             <aside class="col-md-3">
+              <p class="text-center mb-3">
+                <img src={logo} alt="logo" />
+              </p>
               <div class="card mb-3">
                 <div class="card-body p-3">
-                  <form>
-                    <div class="form-group">
-                      <label>Have coupon?</label>
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          name=""
-                          placeholder="Coupon code"
-                        />
-                        <span class="input-group-append">
-                          <button class="btn btn-primary">Apply</button>
-                        </span>
-                      </div>
-                    </div>
-                  </form>
+                  <Coupons setDiscount={setDiscount} />
                 </div>
               </div>
               <div className="card ">
                 <div class="card-body p-3">
                   <dl class="dlist-align">
                     <dt>Total price:</dt>
-                    <dd class="text-right">USD 568</dd>
+                    <dd class="text-right h6">+{totalAmount}</dd>
                   </dl>
                   <dl class="dlist-align">
-                    <dt>Discount:</dt>
-                    <dd class="text-right">USD 658</dd>
+                    <dt>Discount= {Discount}%</dt>
+                    <dd class="text-right h6">
+                      -{totalAmount * (Discount / 100)}
+                    </dd>
                   </dl>
                   <dl class="dlist-align">
                     <dt>Total:</dt>
-                    <dd class="text-right  h5">
-                      <strong>$1,650</strong>
+                    <dd class="text-right h6">
+                      <strong>
+                        {((totalAmount * (100 - Discount)) / 100).toFixed(2)}
+                      </strong>
                     </dd>
                   </dl>
                   <hr />
                   <p class="text-center mb-3">
-                    <img src="assets/images/misc/payments.png" height="26" />
+                    <img src={play} />
                   </p>
                 </div>
               </div>
