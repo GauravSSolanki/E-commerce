@@ -1,7 +1,11 @@
-
-
 @media (min-width: 1025px) {
-    .h-custom {
+  .h-custom {
     height: 100vh !important;
-    }
-    }
+  }
+}
+
+
+/* CSS */
+.bg-img{
+  background-color: #e3e6f3;
+}

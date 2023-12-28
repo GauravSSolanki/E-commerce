@@ -282,16 +282,17 @@ span {
   align-items:flex-start;
   justify-content: space-between;
   padding: 75px;
-  background-color: #ececec;
+  background-color: #e3e6f3;
+  
 }
 
 .footer p{
-  color: rgb(109, 109, 109);
+  color: rgb(27, 27, 27);
   text-decoration: none;
   font-style: italic;
 }
  .footer a{
-  color: rgb(109, 109, 109);
+  color: rgb(33, 32, 32);
   text-decoration: none;
  
 }

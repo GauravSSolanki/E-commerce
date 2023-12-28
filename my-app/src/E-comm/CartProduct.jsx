@@ -71,11 +71,11 @@ function CartProduct({ CartProduct, idx,Discount }) {
           <div class="price-wrap">
             <var class="Total"></var>
             <h6 class="" style={{ color: "black" }}>
-              {(quantity * CartProduct.price * (100 - Discount)) /
-                100}{" "}
+              {((quantity * CartProduct.price * (100 - Discount)) /
+                100)}{" "}
               Rs
             </h6>
-            <h6>Discount : {Discount}%</h6>
+            <h6>{Discount}% off</h6>
           </div>
         </td>
         <td class="text-right">

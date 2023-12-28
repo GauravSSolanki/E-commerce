@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import './App.css';
+import "./App.css";
 
 import { BsList } from "react-icons/bs";
 import { BsCart } from "react-icons/bs";
@@ -17,18 +17,17 @@ function Navbar() {
         style={{
           height: "10vh",
           color: "white",
-        backgroundColor: "#e3e6f3",
-          boxShadow:"0px 2px 0px 0px rgba(0,0,0,0.75)"
+          backgroundColor: "#e3e6f3",
+          boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.75)",
         }}
       >
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <Link class="nav-link ml-4 mr-3" to="/Home">
-              <BsHouseDoor style={{ fontSize: "3vh" }}/> Home
+                <BsHouseDoor style={{ fontSize: "3vh" }} /> Home
               </Link>
             </li>
-
 
             <li class="nav-item active">
               <Link class="nav-link mr-4" to="/Cart">
@@ -37,7 +36,7 @@ function Navbar() {
               </Link>
             </li>
 
-            <li class="nav-item dropdown">
+            {/* <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -65,7 +64,7 @@ function Navbar() {
                   Search
                 </Link>
               </div>
-            </li>
+      </li> */}
           </ul>
           <form class="form-inline my-2 my-lg-0">
             <input
@@ -81,13 +80,15 @@ function Navbar() {
 
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <Link class="nav-link ml-3" to="/Signin">
-                  Login<BsPersonLinesFill style={{ fontSize: "3vh" }}/>
+                <Link class="nav-link ml-3" to="/">
+                  Login
+                  <BsPersonLinesFill style={{ fontSize: "3vh" }} />
                 </Link>
               </li>
               <li class="nav-item ml-4 mr-4 active">
                 <Link class="nav-link" to="/signup">
-                  SignUp<BsFillPersonPlusFill style={{ fontSize: "3vh" }} />
+                  SignUp
+                  <BsFillPersonPlusFill style={{ fontSize: "3vh" }} />
                 </Link>
               </li>
             </ul>

@@ -12,6 +12,7 @@ import Product from "./Product";
 import CartProduct from "./CartProduct";
 import Coupons from "./Coupons";
 import Home from "./Home";
+import Footer from "./Footer";
 
 function Cart() {
   const [Products, setProducts] = useState([]);
@@ -27,6 +28,12 @@ function Cart() {
   const totalAmount = calculateCartTotal(Products);
   // console.log("Total Amount:", totalAmount);
 
+  const [isDivVisible, setDivVisibility] = useState(false);
+
+  const toggleVisibility = () => {
+    setDivVisibility(!isDivVisible);
+  };
+
   useEffect(() => {
     let getData = JSON.parse(localStorage.getItem("cartData")) || [];
     setProducts(getData);
@@ -38,7 +45,7 @@ function Cart() {
     <>
       <header class="section-header">
         <section class="header-main border-bottom">
-          <div class="container">
+          <div class="container bg-img" >
             <div class="row align-items-center">
               <div class="col-lg-2 col-4">
                 <h4 className="">
@@ -70,16 +77,16 @@ function Cart() {
                     <a href="#" class="icon icon-sm rounded-circle border">
                       <i class="fa fa-shopping-cart"></i>
                     </a>
-                    <span class="badge badge-pill badge-danger notify">1</span>
+                    <span class="badge badge-pill badge-danger notify">Items :{Products.length}</span>
                   </div>
                   <div class="widget-header icontext">
                     <a href="#" class="icon icon-sm rounded-circle border">
                       <i class="fa fa-user"></i>
                     </a>
                     <div class="text">
-                      <span class="text-muted">Welcome!</span>
+                      <h4 class="text-dark">Welcome!</h4>
                       <div>
-                        <a href="#">Sign in</a> |<a href="#">Register</a>
+                        <Link to="/"><i>Sign in</i> </Link>| <Link to="/signup"><i>Register</i></Link>
                       </div>
                     </div>
                   </div>
@@ -140,7 +147,7 @@ function Cart() {
                   </a>
                   <a href="#" class="btn btn-light float-md-left">
                     {" "}
-                    <i class=""></i> Continue shopping{" "}
+                    <Link to="/Home">Continue shopping </Link>
                   </a>
                 </div>
               </div>
@@ -153,7 +160,7 @@ function Cart() {
               </div>
             </main>
 
-            <aside class="col-md-3">
+            <aside class="col-md-3" style={{backgroundColor:"#e3e6f3"}}>
               <p class="text-center mb-3">
                 <img src={logo} alt="logo" />
               </p>
@@ -169,16 +176,16 @@ function Cart() {
                     <dd class="text-right h6">+{totalAmount}</dd>
                   </dl>
                   <dl class="dlist-align">
-                    <dt>Discount= {Discount}%</dt>
-                    <dd class="text-right h6">
-                      -{totalAmount * (Discount / 100)}
+                    <dt className="text-success"> Discount= {Discount}%</dt>
+                    <dd class="text-right text-success h6">
+                      -{(totalAmount * (Discount / 100)).toFixed(2)}
                     </dd>
                   </dl>
                   <dl class="dlist-align">
                     <dt>Total:</dt>
                     <dd class="text-right h6">
                       <strong>
-                        {((totalAmount * (100 - Discount)) / 100).toFixed(2)}
+                        : {Math.round((totalAmount * ((100 - Discount) / 100)))}
                       </strong>
                     </dd>
                   </dl>
@@ -186,6 +193,16 @@ function Cart() {
                   <p class="text-center mb-3">
                     <img src={play} />
                   </p>
+                  <dl class="dlist-align">
+                    <dd class="text-right h6">
+                      <button
+                        className="btn-success"
+                        style={{ width: "15vw", padding: "2vh" }}
+                      >
+                        Place Order
+                      </button>
+                    </dd>
+                  </dl>
                 </div>
               </div>
             </aside>
@@ -195,25 +212,38 @@ function Cart() {
 
       <section class="section-name bg padding-y">
         <div class="container">
-          <h6>Payment and refund policy</h6>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
+          <h6>
+            <button onClick={toggleVisibility}>
+              Payment and refund policy
+            </button>
+          </h6>
+
+          
+          {isDivVisible && (
+            <div id="" className="">
+              <p>
+                Clearly outline the conditions under which a customer is
+                eligible for a refund. This may include defective products,
+                damaged items during shipping, or other valid reasons. <br />{" "}
+                Explain the step-by-step process for customers to initiate a
+                refund, including the contact method, required information, and
+                any forms they need to fill out.
+                <br />
+                Refund Timeframe: Clearly state the timeframe within which
+                customers can expect to receive their refund. This may vary
+                depending on the payment method and processing times.
+              </p>
+              <p>
+                Specify the method through which refunds will be issued. This
+                may include crediting the original payment method, providing
+                store credit, or other alternatives.
+                <br />
+                Clearly mention any items or services that are non-refundable.
+                This could include digital products, customized items, or
+                perishable goods.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -227,6 +257,8 @@ function Cart() {
           </p>
         </div>
       </footer>
+
+      <Footer />
     </>
   );
 }

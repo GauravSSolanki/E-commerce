@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import Product from "./Product";
 import Login from "../SignUp/Login";
 import Hero from "./Hero";
+import NewsLetter from "./NewsLetter";
+import Footer from "./Footer";
 
 // import sale4 from "../imgs/sale4.jpg";
 // import sale7 from "../imgs/sale7.jpeg";
@@ -17,6 +19,7 @@ import play from "../imgs/Footer/play.jpg";
 
 function Home() {
   const [Products, setProducts] = useState([]);
+  const [news, setnews] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -34,7 +37,6 @@ function Home() {
 
   useEffect(() => {
     fetchData();
-
   }, [Products]);
 
   if (Product.length === 0) {
@@ -67,7 +69,7 @@ function Home() {
           {Products ? (
             <ul className="product-lists flex-wrap" style={{ padding: "0px" }}>
               {Products.map((item) => (
-                <Product product={item} id={item.id}/>
+                <Product product={item} key={item.id} id={item.id} />
               ))}
             </ul>
           ) : (
@@ -109,93 +111,9 @@ function Home() {
 
       {/* news letter */}
 
-      <section className="newsletter">
-        <div class="newsletter-text">
-          <h3>Sign Up For Newsletters</h3>
-          <h5>
-            get e-mail updates about out latest shop and{" "}
-            <span>special offers</span>
-          </h5>
-        </div>
-        <div class="form">
-          <input
-            type="email"
-            placeholder="Your email address"
-            id="email-address-input"
-          />
-          <button>Sign Up</button>
-        </div>
-      </section>
+      <NewsLetter />
 
-      <footer>
-        <div className="footer">
-          <div className="contact">
-            <a href="">
-              <img src={logo} alt="" />
-            </a>
-            <br />
-            <h3>Contact</h3>
-            <address>
-              <p>
-                <b>Address:</b> Wellington Road, Street 32. San Francisco
-              </p>
-              <p>
-                <b>Phone:</b> Wellington Road, Street 32. San Francisco
-              </p>
-              <p>
-                <b>Hours</b> 10:00 - 18:00. Mon - Sat
-              </p>
-            </address>
-            <h3>Follow Us</h3>
-            <br />
-            <div class="socials">
-              {/* <a href="#">
-                <i class="fa-brands fa-facebook-square"></i>
-              </a>
-              <a href="#">
-                <i class="fa-brands fa-youtube"></i>
-              </a>
-              <a href="#">
-                <i class="fa-brands fa-telegram"></i>
-              </a>
-              <a href="#">
-                <i class="fa-brands fa-instagram"></i>
-              </a>
-              <a href="#">
-                <i class="fa-brands fa-twitter"></i>
-              </a> */}
-            </div>
-          </div>
-          <div class="about">
-            <h3>About</h3>
-            <br />
-            <a href="#">About Us</a>
-            <a href="#">Delivery Information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
-            <a href="#">Contact Us</a>
-          </div>
-          <div class="myaccount ">
-            <h3>My account</h3>
-            <br />
-            <a href=""><Link to="/">SignIn</Link></a>
-            <a href=""><Link to="/Cart">View Cart</Link></a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Order</a>
-            <a href="#">Help</a>
-          </div>
-          <div class="install">
-            <br />
-            <div class="download">
-              <a href="#">
-                <img src={play} alt="" />
-              </a>
-            </div>
-            <p>Secured Payment Gateways</p>
-            <img src={pay} alt="" />
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

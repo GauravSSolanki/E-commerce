@@ -1,14 +1,14 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import "./product.css";
 
-function Product({ product,id}) {
+function Product({ product, id }) {
   const [ITEm, setITEm] = useState(false);
   // const [quantity, setquantity] = useState(1);
 
   const addcart = (item) => {
-    let localData = {...item, quantity:1}; 
-    let getData = JSON.parse(localStorage.getItem("cartData")) || [] ;
-    if (!getData.some(item => item.id === id)) {
+    let localData = { ...item, quantity: 1 };
+    let getData = JSON.parse(localStorage.getItem("cartData")) || [];
+    if (!getData.some((item) => item.id === id)) {
       let localArr = getData.concat(localData);
       // let localArr=[];
       localStorage.setItem("cartData", JSON.stringify(localArr));
@@ -18,7 +18,6 @@ function Product({ product,id}) {
       setITEm(true);
     }
   };
- 
 
   const Details = (item) => {
     localStorage.setItem("More-Detail", JSON.stringify(item));
@@ -31,12 +30,16 @@ function Product({ product,id}) {
         <h2>{product.title}</h2>
         <p>{product.description}</p>
         <p className="text-success">Price: Rs {product.price}</p>
+        <button
+          className="button-15"
+          role="button"
+          onClick={() => addcart(product, id)}
+        >
+          Add to Cart
+        </button>
         <p style={{ color: "red" }}>
           {ITEm && <i>This Item is already Present in cart</i>}
         </p>
-        <button className="Button" onClick={() => addcart(product,id)}>
-          Add to Cart
-        </button>
       </div>
     </div>
   );

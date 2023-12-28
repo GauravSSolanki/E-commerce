@@ -22,7 +22,7 @@ function Login() {
   const CheckUser = (err) => {
     err.preventDefault();
     if (verify()) {
-      let abc = SignupData.find(e => e);
+      let abc = SignupData.find((e) => e);
 
       if (!abc) {
         alert("NO USer found");
@@ -41,7 +41,7 @@ function Login() {
     if (!emailValidator.test(Data.Email)) {
       LocalErr.email = "invalid Email";
       valid = false;
-    } else if (Data.Password.length<=1) {
+    } else if (Data.Password.length <= 1) {
       LocalErr.password = "password lenght is not metched";
       valid = false;
     }
@@ -55,9 +55,9 @@ function Login() {
   }, []);
 
   return (
-    <>
+    <div className="layout">
       <form className="container-fluid">
-        {Data.Email}
+        {/* {Data.Email} */}
         <div class=" row custom-for">
           <div className="col-md-4 offset-md-2 text-center">
             <label
@@ -116,7 +116,7 @@ function Login() {
           </div>
         </div>
       </form>
-    </>
+    </div>
   );
 }
 
