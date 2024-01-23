@@ -5,7 +5,7 @@ import "./product.css";
 
 function Product({ product, id }) {
   const [ITEm, setITEm] = useState(false);
-  const [quantity, setquantity] = useState(1);
+  // const [quantity, setquantity] = useState(1);
 
   const addcart = (item) => {
     let localData = { ...item, quantity:1 };
