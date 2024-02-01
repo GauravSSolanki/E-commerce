@@ -38,13 +38,26 @@ app.delete("/:_id", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const user = await User.find({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email });
   if (!user) {
     res.status(200).json({
       message: "User not exist",
     });
   }
-  console.log(user);
+  // console.log(user);
+
+  if (req.body.password != user.password) {
+    res.status(400).send({
+      message: "Incorrect Data",
+    });
+  }
+
+  // const data={
+  //   user:{
+  //     id = user.id,
+  //   }
+  // }
+  // console.log(user.id);
 
   jwt.sign({ user }, secretKey, { expiresIn: "1000s" }, (err, token) => {
     res.send({
@@ -60,6 +73,7 @@ app.post("/profile", VerifyToken, (req, res) => {
         message: "Invalid token or expired",
       });
     } else {
+      console.log(AuthData);
       res.status(200).send({
         message: "valid token access",
         AuthData,
@@ -82,9 +96,10 @@ function VerifyToken(req, res, next) {
   }
 }
 
-app.get("/search", (req, res) => {
-  const Data = User.find()
-});
+// app.get("/search", (req, res) => {
+//   // const query = {$:{}}
+//   const Data = User.find().where().
+// });
 // app.post("/upload", upload, (req, res) => {});
 
 app.listen(PORT, () => {
