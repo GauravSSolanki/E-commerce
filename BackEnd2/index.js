@@ -2,6 +2,7 @@ require("./Dbconnect");
 
 const User = require("./models/userSchema");
 const Note = require("./models/NoteSchema");
+const Cart = require('./models/CartSchema');
 
 const express = require("express");
 const cors = require("cors");
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.Router());
+app.use("/cart", require("./routes/cart"))
 app.use("/user", require("./routes/auth"))
 // app.use("/notes", require("./routes/note"))
 
