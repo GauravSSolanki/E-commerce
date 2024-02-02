@@ -83,10 +83,8 @@ app.post("/profile", VerifyToken, (req, res) => {
 });
 
 function VerifyToken(req, res, next) {
-  const bearerheader = req.headers["authorization"];
+  const bearerheader = req.headers("authorization");
   if (typeof bearerheader !== "undefined") {
-    const bearer = bearerheader.split(" ");
-    const token = bearer[1];
     req.token = token;
     next();
   } else {
@@ -100,6 +98,8 @@ function VerifyToken(req, res, next) {
 //   // const query = {$:{}}
 //   const Data = User.find().where().
 // });
+
+
 // app.post("/upload", upload, (req, res) => {});
 
 app.listen(PORT, () => {
