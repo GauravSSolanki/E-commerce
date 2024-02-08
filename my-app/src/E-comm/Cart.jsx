@@ -2,31 +2,43 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Cart.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import play from "../imgs/Footer/play.jpg";
 
-import { CiStar } from "react-icons/ci";
+// import { CiStar } from "react-icons/ci";
 
 import logo from "../imgs/Footer/logo.png";
-import Product from "./Product";
+// import Product from "./Product";
 import CartProduct from "./CartProduct";
 import Coupons from "./Coupons";
-import Home from "./Home";
+// import Home from "./Home";
 import Footer from "./Footer";
 
 function Cart() {
   const [Products, setProducts] = useState([]);
   const [Discount, setDiscount] = useState(0);
+  const [token, settoken] = useState("");
 
   const calculateCartTotal = (Products) => {
     return Products.reduce((total, product) => {
-      // Assuming each product has a 'quantity' and 'price' property
       const productTotal = product.quantity * product.price;
       return Math.round(total + productTotal);
     }, 0);
   };
   const totalAmount = calculateCartTotal(Products);
-  // console.log("Total Amount:", totalAmount);
+
+  const FinalCartTotal = (Products) => {
+    return Products.reduce((total, product) => {
+      const productTotal =
+        (product.quantity *
+          product.price *
+          (100 - product.discountPercentage)) /
+        100;
+      return Math.round(total + productTotal);
+    }, 0);
+  };
+  const FinalAmount = FinalCartTotal(Products);
 
   const [isDivVisible, setDivVisibility] = useState(false);
 
@@ -34,10 +46,35 @@ function Cart() {
     setDivVisibility(!isDivVisible);
   };
 
+  // useEffect(() => {
+  //   let getData = JSON.parse(localStorage.getItem("cartData")) || [];
+  //   setProducts(getData);
+  // }, [Products]);
+
+  const getcartproduct = async () => {
+    try {
+      const res = await axios.get("http://localhost:4500/cart/allproducts", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+
+      console.log(res.data);
+      setProducts(res.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
   useEffect(() => {
-    let getData = JSON.parse(localStorage.getItem("cartData")) || [];
-    setProducts(getData);
-  }, [Products]);
+    getcartproduct();
+  }, []);
+
+  useEffect(() => {
+    let token1 = localStorage.getItem("token");
+    settoken(token1);
+  }, [token]);
 
   // console.log(Products);
 
@@ -45,7 +82,7 @@ function Cart() {
     <>
       <header class="section-header">
         <section class="header-main border-bottom">
-          <div class="container bg-img" >
+          <div class="container bg-img">
             <div class="row align-items-center">
               <div class="col-lg-2 col-4">
                 <h4 className="">
@@ -77,7 +114,9 @@ function Cart() {
                     <a href="#" class="icon icon-sm rounded-circle border">
                       <i class="fa fa-shopping-cart"></i>
                     </a>
-                    <span class="badge badge-pill badge-danger notify">Items :{Products.length}</span>
+                    <span class="badge badge-pill badge-danger notify">
+                      Items :{Products.length}
+                    </span>
                   </div>
                   <div class="widget-header icontext">
                     <a href="#" class="icon icon-sm rounded-circle border">
@@ -86,7 +125,13 @@ function Cart() {
                     <div class="text">
                       <h4 class="text-dark">Welcome!</h4>
                       <div>
-                        <Link to="/"><i>Sign in</i> </Link>| <Link to="/signup"><i>Register</i></Link>
+                        <Link to="/">
+                          <i>Sign in</i>{" "}
+                        </Link>
+                        |{" "}
+                        <Link to="/signup">
+                          <i>Register</i>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -127,13 +172,13 @@ function Cart() {
                     </tr>
                   </thead>
                   <tbody>
-                    {Products.map((Product, idx) => {
+                    {Products.map((Product) => {
                       return (
                         <>
                           <CartProduct
-                            CartProduct={Product}
-                            idx={idx}
-                            Discount={Discount}
+                            CartP={Product}
+                            Discount={Product.discountPercentage}
+                            getdata={getcartproduct}
                           />
                         </>
                       );
@@ -160,7 +205,7 @@ function Cart() {
               </div>
             </main>
 
-            <aside class="col-md-3" style={{backgroundColor:"#e3e6f3"}}>
+            <aside class="col-md-3" style={{ backgroundColor: "#e3e6f3" }}>
               <p class="text-center mb-3">
                 <img src={logo} alt="logo" />
               </p>
@@ -176,19 +221,24 @@ function Cart() {
                     <dd class="text-right h6">+{totalAmount}</dd>
                   </dl>
                   <dl class="dlist-align">
-                    <dt className="text-success"> Discount= {Discount}%</dt>
+                    <dt className="text-success"> Discount in Rs</dt>
                     <dd class="text-right text-success h6">
-                      -{(totalAmount * (Discount / 100)).toFixed(2)}
+                      -{totalAmount - FinalAmount}
+                    </dd>
+                  </dl>
+                  <dl class="dlist-align">
+                    <dt>Extra Total after Discount</dt>
+                    <dd class="text-right h6">
+                      <strong>: {Math.round(FinalAmount*((100-Discount)/100))}</strong>
                     </dd>
                   </dl>
                   <dl class="dlist-align">
                     <dt>Total:</dt>
                     <dd class="text-right h6">
-                      <strong>
-                        : {Math.round((totalAmount * ((100 - Discount) / 100)))}
-                      </strong>
+                      <strong>: {Math.round(FinalAmount)}</strong>
                     </dd>
                   </dl>
+                  
                   <hr />
                   <p class="text-center mb-3">
                     <img src={play} />
@@ -218,7 +268,6 @@ function Cart() {
             </button>
           </h6>
 
-          
           {isDivVisible && (
             <div id="" className="">
               <p>

@@ -13,6 +13,7 @@ const mongoose = require("mongoose");
 app.use(cors());
 app.use(express.json());
 
+
 app.use(express.Router());
 app.use("/cart", require("./routes/cart"))
 app.use("/user", require("./routes/auth"))

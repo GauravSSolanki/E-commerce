@@ -24,6 +24,7 @@
     height: 50%;
 
   }
+
   /* .product-profile button{
     color: white;
     padding-inline: 0.5vh;
@@ -71,13 +72,14 @@
   
   .button-15:active {
     background-image: linear-gradient(#3d94d9, #0067b9);
-    border-color: #006dbc;
+    border-color: #5d855e;
     outline: none;
   }
   
   .button-15:focus {
-    box-shadow: rgba(131, 192, 253, 0.5) 0 0 0 3px;
+    box-shadow: rgba(132, 172, 212, 0.5) 0 0 0 3px;
     outline: none;
+    padding: 6px 30px ;
   }
 
 

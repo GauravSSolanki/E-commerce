@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import axios from "axios";
 
 import { useState } from "react";
+
 function Login() {
-  const [SignupData, setSignupData] = useState([]);
+  // const [SignupData, setSignupData] = useState([]);
   const [Data, setData] = useState({
     Email: "",
     Password: "",
   });
+
+  const navigate = useNavigate();
   const [error, seterror] = useState({});
 
   const emailValidator = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -17,20 +21,44 @@ function Login() {
     setData({ ...Data, [e.target.name]: e.target.value });
   };
 
-  const navigate = useNavigate();
+  // const CheckUser = (err) => {
+  //   err.preventDefault();
+  //   if (verify()) {
+  //     let abc = SignupData.find((e) => e);
 
-  const CheckUser = (err) => {
-    err.preventDefault();
+  //     if (!abc) {
+  //       alert("NO USer found");
+  //     } else if (abc.Email === Data.Email && abc.Password === Data.Password) {
+  //       navigate("/Data");
+  //       localStorage.setItem("loggedinData", JSON.stringify(Data));
+  //     } else {
+  //       alert("email & password not exists");
+  //     }
+  //   }
+  // };
+
+  const CheckUser = async (e) => {
+    e.preventDefault();
+    // console.log(Data);
     if (verify()) {
-      let abc = SignupData.find((e) => e);
-
-      if (!abc) {
-        alert("NO USer found");
-      } else if (abc.Email === Data.Email && abc.Password === Data.Password) {
-        navigate("/Data");
-        localStorage.setItem("loggedinData", JSON.stringify(Data));
-      } else {
-        alert("email & password not exists");
+      try {
+        const response = await axios.post(
+          "http://localhost:4500/user/login",
+          {
+            email: Data.Email,
+            password: Data.Password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response.data);
+        localStorage.setItem("token", response.data.token);
+        navigate("/Home");
+      } catch (error) {
+        console.error("Error:", error);
       }
     }
   };
@@ -49,20 +77,20 @@ function Login() {
     return valid;
   };
 
-  useEffect(() => {
-    let abc = JSON.parse(localStorage.getItem("user"));
-    setSignupData(abc);
-  }, []);
+  // useEffect(() => {
+  //   let abc = JSON.parse(localStorage.getItem("user"));
+  //   setSignupData(abc);
+  // }, []);
 
   return (
     <div className="layout">
-      <form className="container-fluid">
+      <form className="container-fluid" onSubmit={CheckUser}>
         {/* {Data.Email} */}
         <div class=" row custom-for">
           <div className="col-md-4 offset-md-2 text-center">
             <label
               for="staticEmail"
-              class="col-form-label"
+              className="col-form-label"
               style={{ color: "black", fontWeight: "400", fontSize: "4vh" }}
             >
               Email
@@ -80,7 +108,7 @@ function Login() {
 
             <label
               for="inputPassword"
-              class=" col-form-label"
+              className=" col-form-label"
               style={{ color: "black", fontWeight: "400", fontSize: "4vh" }}
             >
               Password
@@ -97,10 +125,7 @@ function Login() {
             {error.password && <i>{error.password}</i>}
 
             <div class="form-group m-auto text-center">
-              <button
-                className="btn btn-custom mt-3 pl-4 pr-4"
-                onClick={CheckUser}
-              >
+              <button type="submit" className="btn btn-custom mt-3 pl-4 pr-4">
                 Login
               </button>
             </div>

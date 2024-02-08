@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function Coupons({ setDiscount }) {
   const [coupon, setcoupon] = useState("");
-  const SetDist = (e) => {
+  const SetDist = () => {
     // e.preventDefault();
     if (coupon == "First10") {
       setDiscount(10);
